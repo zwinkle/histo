@@ -1,0 +1,97 @@
+/* frontend/src/index.css */
+
+/* 1. Import font Monospace dari Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 2. Menetapkan font dasar dan warna latar */
+body {
+    font-family: 'IBM Plex Mono', monospace;
+    background-color: #2a2a2a; /* Warna retro-bg */
+    color: #d4c9b5; /* Warna retro-text */
+}
+
+/* 3. Efek Grain di seluruh layar */
+body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiGAAAAA3NCSVQICAjb4U/gAAAAMFBMVEX///8zMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzP6A09pAAAAD3RSTlMAwICAwICAwICAwICAwICAoIUNyAAAAPhJREFUSInN0jECwzAIBUEZ2Jp7/5VFEbL7EBQCvHlfAMBf/CIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIi8p89d6Cl20s2nUYp05QySSjTDAAATEQyGcwgT/fJ374/61B/9ED3w92D3Q93D3Yf7H7YfTD7YfHB7YfHD7YfHD/Yf3D/Yf3D/Yf/D/Yf/D/Yf/D/Yv/D/Yv/D/Yv/D/Yv/D/Y//D/Y//D/Y//D/Zv/D/Zv/D/Zv/D/Z//D/Z//D/Z//D/Zf/D/Zf/D/Zf/D/Z//D/Z//D/Zf/D9Yf/D9Yf/D9Yf/D9Yf/D9Yf/D94f/D94f/D94f/D94f/D94f/D9oP/D9oP/D9oP/D9oP/D9oP/D9pP/D9pP/D9pP/D9pP/D9pP/D9pT//9A/8P+z8I/pP+j+A/zP/D+I/xD/C/yP8T/BP8P+h+A/yP8h/AP4P8B/wP4H+B/gf4D+B/gfwH+B/gf4H+B/gfwH+B/gf4P8H9/8F/x/i/wH/D/gf4H/h/gH/D/B/gP+H+A/w/wD/D/AP8P8A/w/wD/B/Af8P8B/w/wH/D/Af8P8B/w/wP8H+B/gf4P+B/gf4P+B/gf4P8H9/8F/5/h/wH+H+H/Af8P8H+A/wf4H+A/wf4H+B/gf4H+B/gfwH+B/gfwf8P+D/B/w/4P8H/D/g/wf8P+D/B/w/4P8P9/8F/x/h/wP8P+H/A/w/wH/B/gf4H+B/gf4H+B/gf4H+B/gf4P8H/B/g/wf8P+D/B/w/4P8H/D/g/wf8P+H/D/Z/g/2f4P9n+D/Z/g/2f4P9n+D/Z//8AS2s0/4mHylwAAAAASUVORK5CYII=);
+    opacity: 0.08;
+    pointer-events: none; /* Penting agar tidak menghalangi klik */
+    z-index: 9999;
+}
+
+/* 4. Filter gambar menjadi hitam-putih */
+.bw-image {
+    filter: grayscale(100%) contrast(1.1);
+    transition: filter 0.4s ease-in-out;
+}
+/* Kembalikan warna saat kartu di-hover */
+.group:hover .bw-image {
+    filter: grayscale(0%) contrast(1);
+}
+
+/* Menggunakan kembali style 3D yang sudah ada */
+.perspective-container { perspective: 1200px; }
+.card {
+    --rotate-x: 0deg; --rotate-y: 0deg; --translate-z: 0px; --glare-x: 50%; --glare-y: 50%; --glare-opacity: 0; --shadow-opacity: 0;
+    transform: rotateX(var(--rotate-x)) rotateY(var(--rotate-y)) translateZ(var(--translate-z));
+    transform-style: preserve-3d;
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.card-glare {
+    position: absolute; inset: 0; border-radius: 1.5rem;
+    background: radial-gradient(circle 250px at var(--glare-x) var(--glare-y), rgba(228, 217, 200, 0.1), transparent);
+    opacity: var(--glare-opacity);
+    transition: opacity 0.2s ease-in-out;
+}
+.card-shadow {
+    position: absolute; inset: -20px; border-radius: 1.5rem;
+    background: radial-gradient(circle, rgba(201, 168, 106, 0.2), transparent 70%);
+    opacity: var(--shadow-opacity);
+    transition: opacity 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    filter: blur(20px);
+    transform: translateZ(-50px);
+}
+
+@keyframes scroll-map {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  
+.map-background-container {
+  position: fixed; /* Tetap di posisinya, tidak ikut scroll */
+  inset: 0; /* Memenuhi seluruh layar */
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* Sembunyikan bagian peta yang keluar layar */
+  z-index: 0; /* Posisikan di paling belakang */
+  pointer-events: none; /* Agar tidak menghalangi klik */
+}
+
+.map-scroller {
+  display: flex;
+  width: 200%;
+  height: 100%;
+  animation: scroll-map 30s linear infinite;
+}
+
+.map-img {
+  width: 50%;
+  height: 100%;
+  flex-shrink: 0;
+  object-fit: cover;
+  opacity: 0.5;
+  filter: blur(8px) invert(80%) sepia(20%) saturate(500%) hue-rotate(355deg) brightness(1.1) contrast(1);
+}
